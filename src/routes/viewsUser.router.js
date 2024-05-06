@@ -22,6 +22,7 @@ router.get('/profile', isAuthenticated, viewsUserProfileController);
 // Ruta para cerrar sesión (privada, requiere estar autenticado)
 router.get('/logout', isAuthenticated, viewsUserLogoutController);
 
+// Ruta para cambiar la contraseña
 router.get('/forget-password', viewsUserForgetPasswordController);
 
 export default router;

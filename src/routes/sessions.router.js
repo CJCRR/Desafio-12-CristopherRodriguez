@@ -60,12 +60,12 @@ router.post('/forget-password', async (req, res) => {
   let message = {
     from: config.mailDelEcommerce,
     to: email,
-    subject: '[Coder e-commerce API Backend] Reset you password',
-    html: `<h1>[Coder e-commerce API Backend] Reset you password</h1>
+    subject: 'Reset you password',
+    html: `<h1>Reset you password</h1>
     <hr>Debes resetear tu password haciendo click en el siguiente link <a href="http://localhost:8080/api/sessions/verify-token/${token}" target="_blank">http://localhost:8080/api/sessions/verify-token/${token}</a>
     <hr>
     Saludos cordiales,<br>
-    <b>The Coder e-commerce API Backend</b>`
+    <b>CJCRR</b>`
   }
   try {
     await transporter.sendMail(message)
@@ -82,8 +82,12 @@ router.get('/verify-token/:token', async (req, res) => {
   if (!userPassword) {
     return res.redirect('/forget-password');
   }
-  const user = userPassword.email
-  res.render('reset-password', { user })
+  const user = userPassword.email;
+  res.render('reset-password', {
+    layout: 'main',
+    user,
+    styles: ['/css/styles.css']
+  });
 })
 
 // devuelve al usuario la pagina para cambiar la contraseña
