@@ -40,6 +40,7 @@ router.get('/githubcallback', passport.authenticate('github', { failureRedirect:
 // devuelve los detalles del usuario actual
 router.get('/current', readInfoUserController);
 
+// cambio de contraseña
 router.post('/forget-password', async (req, res) => {
   const email = req.body.email
   const user = await UserModel.findOne({ email })
@@ -74,17 +75,18 @@ router.post('/forget-password', async (req, res) => {
   }
 }); // Restablece la password para iniciar sesión mediante un mail enviado al correo del usuario ingresado
 
+// verifica y redirecciona al usuario a cambiar la contraseña
 router.get('/verify-token/:token', async (req, res) => {
   const token = req.params.token
   const userPassword = await UserPasswordModel.findOne({ token })
   if (!userPassword) {
-    // return res.status(404).json({ status: 'error', error: 'Token no válido / El token ha expirado' })
     return res.redirect('/forget-password');
   }
   const user = userPassword.email
   res.render('reset-password', { user })
 })
 
+// devuelve al usuario la pagina para cambiar la contraseña
 router.post('/reset-password/:user', async (req, res) => {
   try {
     const user = await UserModel.findOne({ email: req.params.user })
