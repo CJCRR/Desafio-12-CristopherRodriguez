@@ -4,7 +4,8 @@ import {
     viewsUserRegisterController,
     viewsUserLoginController,
     viewsUserProfileController,
-    viewsUserLogoutController 
+    viewsUserLogoutController,
+    viewsUserForgetPasswordController 
 } from "../controllers/viewsUser.controller.js";
 
 const router = Router();
@@ -20,5 +21,7 @@ router.get('/profile', isAuthenticated, viewsUserProfileController);
 
 // Ruta para cerrar sesión (privada, requiere estar autenticado)
 router.get('/logout', isAuthenticated, viewsUserLogoutController);
+
+router.get('/forget-password', viewsUserForgetPasswordController);
 
 export default router;

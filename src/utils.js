@@ -1,6 +1,7 @@
 import { dirname } from "path";
 import { fileURLToPath } from "url";
 import { faker } from '@faker-js/faker'
+import bcrypt from 'bcryptjs'
 
 const __dirname= dirname(fileURLToPath(import.meta.url))
 
@@ -17,5 +18,19 @@ export const generateProduct = () => {
         thumbnail: [faker.image.url()],
     };
 };
+
+export const generateRandomString = (num) => {
+    return [...Array(num)].map(() => {
+        const randomNum = ~~(Math.random() * 36);
+        return randomNum.toString(36);
+    })
+        .join('')
+        .toUpperCase();
+}
+
+export const createHash = password => {
+    const saltRounds = 10;
+    return bcrypt.hashSync(password, saltRounds)
+}
 
 export{__dirname}

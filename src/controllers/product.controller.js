@@ -21,10 +21,8 @@ export const createProductController = async (req, res) => {
           logger.error(errorInfo)
     }
 
-      //const result = await Product.create(product);
       const result = await ProductService.create(product)
       
-      //const products = await Product.find().lean().exec();
       const products = await ProductService.getAll()
 
       req.io.emit('productList', products); // emite el evento updatedProducts con la lista de productos
@@ -40,9 +38,6 @@ export const updateProductController = async (req, res) => {
       const productId = req.params.pid;
       const updatedFields = req.body;
   
-      // const updatedProduct = await Product.findByIdAndUpdate(productId, updatedFields, {
-      //   new: true // Para devolver el documento actualizado
-      // }).lean().exec();
       const updatedProduct = await ProductService.update(productId, updatedFields)
   
       if (!updatedProduct) {
@@ -50,7 +45,6 @@ export const updateProductController = async (req, res) => {
         return;
       }
   
-      //const products = await Product.find().lean().exec();
       const products = await ProductService.getAll();
   
       req.io.emit('productList', products);
@@ -65,8 +59,21 @@ export const updateProductController = async (req, res) => {
 export const deleteProductController = async (req, res) => {
     try {
       const productId = req.params.pid;
+
+      const product = await ProductService.getById(productId)
+        const userInfo = {
+        first_name: req.session.user.first_name,
+        last_name: req.session.user.last_name,
+        email: req.session.user.email,
+        age: req.session.user.age,
+        role: req.session.user.role,
+      };
+
+    if (product.owner != userInfo.email && userInfo.role == 'premium'){
+      res.status(404).json({ error: 'No puedes eliminar este producto' })
+      return;
+    }
   
-      //const deletedProduct = await Product.findByIdAndDelete(productId).lean().exec();
       const deletedProduct = await ProductService.delete(productId)
   
       if (!deletedProduct) {
@@ -74,7 +81,6 @@ export const deleteProductController = async (req, res) => {
         return;
       }
   
-      //const products = await Product.find().lean().exec();
       const products = await ProductService.getAll();
   
       req.io.emit('productList', products);
@@ -89,7 +95,6 @@ export const deleteProductController = async (req, res) => {
 export const readProductController = async (req, res) => {
     const id = req.params.pid;
     try {
-      //const product = await Product.findById(id).lean().exec();
       const product = await ProductService.getById(id)
       if (product) {
         res.status(200).json(product);

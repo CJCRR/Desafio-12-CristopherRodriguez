@@ -1,6 +1,6 @@
 import { Router } from 'express';
 
-import { isAuthenticated, isAdmin, hasAdminCredentials } from "../public/js/authMiddleware.js";
+import { isAuthenticated, isAdminOrPremium, hasAdminCredentials } from "../public/js/authMiddleware.js";
 import { 
   readViewsProductsController, 
   readViewsRealTimeProductsController, 
@@ -15,7 +15,7 @@ const router = Router();
 router.get('/home', isAuthenticated, readViewsProductsController);
 
 // Devuelve todos los productos en tiempo real
-router.get('/realtimeproducts', isAuthenticated, isAdmin, readViewsRealTimeProductsController);
+router.get('/realtimeproducts', isAuthenticated, isAdminOrPremium, readViewsRealTimeProductsController);
 
 // Devuelve un producto según su id
 router.get('/realtimeproducts/:cid', isAuthenticated, readViewsProductController);

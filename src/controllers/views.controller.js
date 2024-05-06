@@ -14,8 +14,6 @@ export const readViewsProductsController = async (req, res) => {
     products.prevLink = products.hasPrevPage ? `/home?limit=${itemsPorPage}&page=${products.prevPage}` : '';
     products.nextLink = products.hasNextPage ? `/home?limit=${itemsPorPage}&page=${products.nextPage}` : '';
 
-      // console.log(products);
-
       // Obtener los datos del usuario desde la sesión
     const userInfo = {
         first_name: req.session.user.first_name,
@@ -45,7 +43,6 @@ export const readViewsRealTimeProductsController = async (req, res) => {
 export const readViewsProductController = async (req, res) => {
   try {
     const id = req.params.cid
-    //const result = await ProductModel.findById(id).lean().exec();
     const result = await ProductService.getById(id)
     const cartInfo = {
       cart: req.session.user.cart,
