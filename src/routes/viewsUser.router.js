@@ -10,16 +10,16 @@ import {
 
 const router = Router();
 
-// Ruta para el formulario de registro (pública)
+// Ruta para el formulario de registro 
 router.get('/register', viewsUserRegisterController);
 
-// Ruta para el formulario de inicio de sesión (pública)
+// Ruta para el formulario de inicio de sesión 
 router.get('/login', viewsUserLoginController);
 
-// Ruta para el perfil del usuario (privada, requiere estar autenticado)
+// Ruta para el perfil del usuario 
 router.get('/profile', isAuthenticated, viewsUserProfileController);
 
-// Ruta para cerrar sesión (privada, requiere estar autenticado)
+// Ruta para cerrar sesión 
 router.get('/logout', isAuthenticated, viewsUserLogoutController);
 
 // Ruta para cambiar la contraseña
